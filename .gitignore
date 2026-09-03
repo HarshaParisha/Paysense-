@@ -1,0 +1,34 @@
+# Environment & credentials
+.env
+.env.*
+*.env
+.env.example
+
+# SQLite database
+paysense.db
+*.sqlite
+*.sqlite3
+*.db
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+
+# Node dependencies & frontend production build
+node_modules/
+client/node_modules/
+client/dist/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

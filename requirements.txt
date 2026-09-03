@@ -1,0 +1,8 @@
+flask
+flask-cors
+anthropic
+razorpay
+apscheduler
+twilio
+sendgrid
+python-dotenv

@@ -144,6 +144,7 @@ def razorpay_webhook():
     return jsonify({"status": "received", "event": event_type}), 200
 
 
+@app.route("/activity", methods=["GET"])
 @app.route("/api/activity", methods=["GET"])
 def api_activity():
     """Returns the last 100 payment failure and recovery events."""
@@ -151,6 +152,7 @@ def api_activity():
     return jsonify(activity), 200
 
 
+@app.route("/report", methods=["GET"])
 @app.route("/api/report", methods=["GET"])
 def api_report():
     """Returns aggregated performance and recovery metrics."""
@@ -158,6 +160,7 @@ def api_report():
     return jsonify(report), 200
 
 
+@app.route("/export", methods=["GET"])
 @app.route("/api/export", methods=["GET"])
 def api_export():
     """
@@ -196,6 +199,7 @@ RECOVERY_HINTS = {
 }
 
 
+@app.route("/reasoning/<payment_id>", methods=["GET"])
 @app.route("/api/reasoning/<payment_id>", methods=["GET"])
 def api_reasoning(payment_id):
     """

@@ -33,11 +33,24 @@ def get_connection():
 def init_db():
     """Initialize database from schema.sql and configure delete prevention triggers."""
     base_dir = Path(__file__).resolve().parent
+    db_path = Path(os.getenv("DATABASE_PATH", DATABASE_PATH))
+
+    # Fast bootstrap on serverless/fresh instances: copy seed.db if destination does not exist
+    seed_db = base_dir / "seed.db"
+    if not db_path.exists() and seed_db.exists():
+        try:
+            import shutil
+            db_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(seed_db, db_path)
+            return
+        except Exception as e:
+            print(f"Warning: unable to copy seed.db ({e}), falling back to schema.sql")
+
     schema_path = base_dir / "schema.sql"
-    
     with open(schema_path, "r", encoding="utf-8") as f:
         schema_sql = f.read()
 
+    db_path.parent.mkdir(parents=True, exist_ok=True)
     conn = get_connection()
     try:
         conn.executescript(schema_sql)
@@ -48,6 +61,17 @@ def init_db():
         if "customer_display_name" not in columns:
             cursor.execute("ALTER TABLE failed_payments ADD COLUMN customer_display_name TEXT;")
         conn.commit()
+
+        # Check if database is empty; if so, populate initial records
+        cursor.execute("SELECT COUNT(*) AS total FROM failed_payments;")
+        row = cursor.fetchone()
+        count = row["total"] if row else 0
+        if count == 0:
+            try:
+                from data_generator import generate_synthetic_payments
+                generate_synthetic_payments(50)
+            except Exception as gen_err:
+                print(f"Auto-generate fallback note: {gen_err}")
     finally:
         conn.close()
 

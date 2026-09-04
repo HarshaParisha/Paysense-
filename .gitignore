@@ -9,6 +9,7 @@ paysense.db
 *.sqlite
 *.sqlite3
 *.db
+!seed.db
 
 # Virtual environment
 .venv/

@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "outputDirectory": "client/dist",
   "headers": [
     {
       "source": "/assets/(.*).css",

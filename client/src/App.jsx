@@ -55,31 +55,31 @@ export default function App() {
     <div className="min-h-screen bg-white text-[#0f172a] font-sans antialiased">
       {/* Light-Theme Real-Time Revenue Ticker Strip at the Very Top */}
       <div className="w-full bg-slate-50/80 border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5">
           <div className="grid grid-cols-3 divide-x divide-slate-200 text-center">
-            <div className="px-2 sm:px-4">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            <div className="px-1 sm:px-2 md:px-4">
+              <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                 At Risk
               </div>
-              <div className="text-base sm:text-xl font-bold text-[#0f172a] mt-0.5 tracking-tight font-mono">
+              <div className="text-sm sm:text-base md:text-xl font-bold text-[#0f172a] mt-0.5 tracking-tight font-mono truncate">
                 ₹{tickerData.atRisk.toLocaleString('en-IN')}
               </div>
             </div>
 
-            <div className="px-2 sm:px-4">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            <div className="px-1 sm:px-2 md:px-4">
+              <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                 Recovered
               </div>
-              <div className="text-base sm:text-xl font-bold text-emerald-600 mt-0.5 tracking-tight font-mono">
+              <div className="text-sm sm:text-base md:text-xl font-bold text-emerald-600 mt-0.5 tracking-tight font-mono truncate">
                 ₹{tickerData.recovered.toLocaleString('en-IN')}
               </div>
             </div>
 
-            <div className="px-2 sm:px-4">
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            <div className="px-1 sm:px-2 md:px-4">
+              <div className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-slate-500">
                 Recovery Rate
               </div>
-              <div className="text-base sm:text-xl font-bold text-[#0052ff] mt-0.5 tracking-tight font-mono">
+              <div className="text-sm sm:text-base md:text-xl font-bold text-[#0052ff] mt-0.5 tracking-tight font-mono">
                 {tickerData.rate}%
               </div>
             </div>
@@ -89,16 +89,16 @@ export default function App() {
 
       {/* Floating/Sticky Header Bar */}
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+        <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-3">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-wrap items-center justify-between sm:justify-start gap-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setCurrentView('landing');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className="inline-flex items-center space-x-1 text-xs font-semibold text-slate-600 hover:text-[#0052ff] py-1.5 px-3 rounded-full border border-slate-200 bg-slate-50 hover:bg-white hover:border-[#0052ff] transition-all"
+                className="inline-flex items-center space-x-1 text-xs font-semibold text-slate-600 hover:text-[#0052ff] py-1.5 px-3 rounded-full border border-slate-200 bg-slate-50 hover:bg-white hover:border-[#0052ff] transition-all min-h-[36px]"
                 title="Return to Landing Page and Guided Tour"
               >
                 <IconArrowLeft className="w-3.5 h-3.5" />
@@ -106,25 +106,25 @@ export default function App() {
               </button>
 
               <div className="flex items-center space-x-2">
-                <div className="w-7 h-7 bg-[#0052ff] rounded-full flex items-center justify-center text-white font-bold text-xs">
+                <div className="w-7 h-7 bg-[#0052ff] rounded-full flex items-center justify-center text-white font-bold text-xs shadow-sm">
                   ₹
                 </div>
-                <h1 className="text-lg font-semibold tracking-tight text-[#0f172a]">
+                <h1 className="text-base sm:text-lg font-semibold tracking-tight text-[#0f172a]">
                   PaySense
                 </h1>
-                <span className="text-[11px] px-2.5 py-0.5 font-medium bg-blue-50 text-[#0052ff] rounded-full border border-blue-100">
-                  Live Merchant Console
+                <span className="hidden xs:inline-block text-[11px] px-2.5 py-0.5 font-medium bg-blue-50 text-[#0052ff] rounded-full border border-blue-100">
+                  Console
                 </span>
               </div>
             </div>
 
             {/* Switchable Pill Tab Buttons */}
-            <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-full border border-slate-200 self-start sm:self-auto">
+            <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-full border border-slate-200 w-full sm:w-auto">
               <button
                 type="button"
                 id="tab-live-activity"
                 onClick={() => setActiveTab('activity')}
-                className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                className={`flex-1 sm:flex-initial px-4 py-2 sm:py-1.5 text-xs font-semibold rounded-full transition-all text-center min-h-[36px] flex items-center justify-center ${
                   activeTab === 'activity'
                     ? 'bg-[#0052ff] text-white shadow-sm'
                     : 'text-slate-600 hover:text-[#0f172a] bg-transparent'
@@ -136,7 +136,7 @@ export default function App() {
                 type="button"
                 id="tab-recovery-report"
                 onClick={() => setActiveTab('report')}
-                className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all ${
+                className={`flex-1 sm:flex-initial px-4 py-2 sm:py-1.5 text-xs font-semibold rounded-full transition-all text-center min-h-[36px] flex items-center justify-center ${
                   activeTab === 'report'
                     ? 'bg-[#0052ff] text-white shadow-sm'
                     : 'text-slate-600 hover:text-[#0f172a] bg-transparent'
@@ -150,7 +150,7 @@ export default function App() {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8">
         {activeTab === 'activity' ? <ActivityFeed /> : <Report />}
       </main>
     </div>

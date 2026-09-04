@@ -14,7 +14,7 @@ import threading
 import time
 from flask import Flask, Response, jsonify, request, send_from_directory
 from flask_cors import CORS
-from audit import init_db, get_activity, get_report
+from audit import init_db, get_activity, get_report, get_connection
 from agent import process_failure
 import config
 
@@ -32,6 +32,32 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Initialize SQLite database schema and triggers on startup
 init_db()
+
+
+@app.after_request
+def add_security_and_caching_headers(response):
+    """Adds standard security headers and optimal caching policies for production."""
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+
+    # Static assets cache with immutable hash, HTML and APIs never stale
+    if request.path.startswith("/assets/"):
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    elif request.path in ["/", "/demo"] or request.path.endswith(".html"):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return response
+
+
+@app.errorhandler(404)
+def spa_fallback(e):
+    """SPA fallback: serve index.html for client-side routing on non-API paths."""
+    if not request.path.startswith("/api/") and not request.path.startswith("/webhook/"):
+        index_file = DIST_DIR / "index.html"
+        if index_file.exists():
+            return send_from_directory(str(DIST_DIR), "index.html")
+    return jsonify({"error": "Not Found", "path": request.path}), 404
 
 
 @app.route("/", methods=["GET"])
@@ -158,6 +184,52 @@ def api_export():
         },
     )
     return response
+
+
+RECOVERY_HINTS = {
+    "upi_pin_error": "wait 8 minutes and send WhatsApp nudge",
+    "bank_timeout": "silent re-attempt after 5 minutes",
+    "network_dropout": "send push notification after 12 minutes",
+    "insufficient_funds": "schedule WhatsApp message next morning 9-11 AM IST",
+    "card_decline": "send recovery email after 2 hours",
+    "method_unsupported": "escalate to merchant immediately",
+}
+
+
+@app.route("/api/reasoning/<payment_id>", methods=["GET"])
+def api_reasoning(payment_id):
+    """
+    Returns diagnostic classification and reasoning for payment_id.
+    Queries classifications table for matching row.
+    """
+    conn = get_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            SELECT payment_id, failure_category, confidence_score, llm_reasoning
+            FROM classifications
+            WHERE payment_id = ?
+            ORDER BY id DESC LIMIT 1;
+            """,
+            (payment_id,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return jsonify({"message": "no classification found"}), 404
+
+        cat = row["failure_category"]
+        hint = RECOVERY_HINTS.get(cat, "escalate to merchant immediately")
+
+        return jsonify({
+            "payment_id": row["payment_id"],
+            "failure_category": cat,
+            "confidence_score": float(row["confidence_score"]),
+            "reasoning": row["llm_reasoning"] or "No reasoning recorded",
+            "recovery_hint": hint,
+        }), 200
+    finally:
+        conn.close()
 
 
 if __name__ == "__main__":

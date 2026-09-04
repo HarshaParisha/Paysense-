@@ -300,10 +300,10 @@ export default function LandingPage({ onLaunchConsole }) {
   return (
     <div className="min-h-screen bg-white text-[#0f172a] font-sans antialiased selection:bg-[#0052ff] selection:text-white">
       {/* Floating Transparent Pill Navigation Bar */}
-      <header className="sticky top-4 z-50 w-full px-4 sm:px-6">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full border border-slate-200/80 bg-white/80 px-5 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all">
+      <header className="sticky top-4 z-50 w-full px-3 sm:px-6">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full border border-slate-200/80 bg-white/80 px-4 sm:px-5 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all">
           <div className="flex items-center space-x-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0052ff] text-white font-bold text-xs shadow-sm">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#0052ff] text-white font-bold text-xs shadow-sm shrink-0">
               ₹
             </div>
             <span className="text-base font-semibold tracking-tight text-[#0f172a]">PaySense</span>
@@ -336,7 +336,7 @@ export default function LandingPage({ onLaunchConsole }) {
           <button
             type="button"
             onClick={onLaunchConsole}
-            className="inline-flex h-9 items-center justify-center rounded-full bg-[#0052ff] px-4 text-xs font-semibold text-white transition-all hover:bg-[#003ecc] active:scale-[0.98] shadow-sm"
+            className="inline-flex h-9 items-center justify-center rounded-full bg-[#0052ff] px-3.5 sm:px-4 text-xs font-semibold text-white transition-all hover:bg-[#003ecc] active:scale-[0.98] shadow-sm shrink-0"
           >
             Launch Console
           </button>
@@ -344,29 +344,29 @@ export default function LandingPage({ onLaunchConsole }) {
       </header>
 
       {/* Hero Section */}
-      <section className="w-full bg-gradient-to-b from-slate-50/80 via-white to-white py-16 lg:py-24 border-b border-slate-100">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+      <section className="w-full bg-gradient-to-b from-slate-50/80 via-white to-white py-12 sm:py-16 lg:py-24 border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
             {/* Left Hero Column */}
             <div className="lg:col-span-7">
               <div className="inline-flex items-center space-x-2 rounded-full border border-blue-100 bg-blue-50/70 px-3.5 py-1 text-xs font-medium text-[#0052ff] mb-6 shadow-sm">
-                <IconPulse className="w-3.5 h-3.5 text-[#0052ff]" />
-                <span>Autonomous Payment Recovery Agent for India</span>
+                <IconPulse className="w-3.5 h-3.5 text-[#0052ff] shrink-0" />
+                <span className="truncate">Autonomous Payment Recovery Agent for India</span>
               </div>
 
-              <h1 className="text-4xl font-normal tracking-tight text-[#0f172a] sm:text-5xl lg:text-[56px] lg:leading-[1.08]">
+              <h1 className="text-3xl font-normal tracking-tight text-[#0f172a] sm:text-5xl lg:text-[56px] lg:leading-[1.08]">
                 Patience of your customers is in our hands.
               </h1>
 
-              <p className="mt-6 max-w-xl text-lg font-normal leading-relaxed text-slate-600">
+              <p className="mt-5 sm:mt-6 max-w-xl text-base sm:text-lg font-normal leading-relaxed text-slate-600">
                 Every day in India, millions of high-intent checkouts fail due to fleeting bank server timeouts, accidental UPI MPIN slips, and temporary network drops. Traditional error screens alarm customers and kill conversion. PaySense autonomously intervenes behind the scenes—diagnosing root causes, respecting human timing, and recovering lost revenue.
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={() => scrollToSection('tour')}
-                  className="inline-flex h-12 items-center justify-center rounded-full bg-[#0052ff] px-8 text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm"
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-[#0052ff] px-6 sm:px-8 text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm w-full sm:w-auto"
                 >
                   <span>Explore Interactive Tour</span>
                   <IconArrowRight className="w-4 h-4 ml-2" />
@@ -374,16 +374,16 @@ export default function LandingPage({ onLaunchConsole }) {
                 <button
                   type="button"
                   onClick={onLaunchConsole}
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-7 text-sm font-semibold text-[#0f172a] transition-all hover:bg-slate-50"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-slate-200 bg-white px-6 sm:px-7 text-sm font-semibold text-[#0f172a] transition-all hover:bg-slate-50 w-full sm:w-auto"
                 >
                   Open Live Console
                 </button>
               </div>
 
-              <div className="mt-12 grid grid-cols-3 gap-6 border-t border-slate-200/80 pt-8 text-xs text-slate-600">
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 border-t border-slate-200/80 pt-6 sm:pt-8 text-xs text-slate-600">
                 <div className="space-y-1">
                   <div className="font-semibold text-[#0f172a] flex items-center space-x-1.5">
-                    <IconShield className="w-4 h-4 text-[#0052ff]" />
+                    <IconShield className="w-4 h-4 text-[#0052ff] shrink-0" />
                     <span>Zero PII Exposure</span>
                   </div>
                   <div className="text-slate-500">SHA-256 cryptographic privacy</div>
@@ -391,7 +391,7 @@ export default function LandingPage({ onLaunchConsole }) {
 
                 <div className="space-y-1">
                   <div className="font-semibold text-[#0f172a] flex items-center space-x-1.5">
-                    <IconClock className="w-4 h-4 text-[#0052ff]" />
+                    <IconClock className="w-4 h-4 text-[#0052ff] shrink-0" />
                     <span>Contextual Timing</span>
                   </div>
                   <div className="text-slate-500">Tailored recovery pauses</div>
@@ -399,7 +399,7 @@ export default function LandingPage({ onLaunchConsole }) {
 
                 <div className="space-y-1">
                   <div className="font-semibold text-[#0f172a] flex items-center space-x-1.5">
-                    <IconUserCheck className="w-4 h-4 text-[#0052ff]" />
+                    <IconUserCheck className="w-4 h-4 text-[#0052ff] shrink-0" />
                     <span>Anti-Spam Policy</span>
                   </div>
                   <div className="text-slate-500">Strict 3-attempt ceiling</div>
@@ -409,7 +409,7 @@ export default function LandingPage({ onLaunchConsole }) {
 
             {/* Right Hero Column: Interactive Before/After Toggle Card */}
             <div className="lg:col-span-5">
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.05)] transition-all">
+              <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 shadow-[0_8px_30px_rgba(0,0,0,0.05)] transition-all">
                 <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     Experience Contrast
@@ -447,7 +447,7 @@ export default function LandingPage({ onLaunchConsole }) {
                         <IconAlertCircle className="w-6 h-6" />
                       </div>
                       <div className="text-base font-bold text-rose-800">TRANSACTION FAILED</div>
-                      <div className="mt-1 text-xs text-rose-700">
+                      <div className="mt-1 text-xs text-rose-700 leading-relaxed">
                         "Your payment could not be processed. If money was debited, it will be refunded in 5-7 business days."
                       </div>
                     </div>
@@ -514,14 +514,14 @@ export default function LandingPage({ onLaunchConsole }) {
 
       {/* Real Indian Commerce Leaders Logo Strip */}
       <section className="w-full bg-white py-10 border-b border-slate-100">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               Trusted Architecture Across Indian Digital Commerce
             </span>
           </div>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-85 hover:opacity-100 transition-opacity">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 md:gap-12 opacity-85 hover:opacity-100 transition-opacity">
             <LogoSwiggy />
             <LogoNykaa />
             <LogoBoat />
@@ -536,8 +536,8 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 1: Scalability Across Large, Medium & Small Companies */}
-      <section id="scalability" className="w-full bg-slate-50/60 py-20 border-b border-slate-200">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <section id="scalability" className="w-full bg-slate-50/60 py-12 sm:py-20 border-b border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="rounded-full bg-blue-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#0052ff] border border-blue-100">
               Company Scale & Impact
@@ -551,7 +551,7 @@ export default function LandingPage({ onLaunchConsole }) {
           </div>
 
           {/* Scale Selector Tabs */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {COMPANY_SCALES.map((scale, idx) => {
               const IconComp = scale.icon;
               const isSelected = activeScaleIndex === idx;
@@ -560,7 +560,7 @@ export default function LandingPage({ onLaunchConsole }) {
                   key={scale.id}
                   type="button"
                   onClick={() => setActiveScaleIndex(idx)}
-                  className={`p-6 text-left rounded-3xl border transition-all ${
+                  className={`p-5 sm:p-6 text-left rounded-2xl sm:rounded-3xl border transition-all ${
                     isSelected
                       ? 'border-[#0052ff] bg-white shadow-sm'
                       : 'border-slate-200 bg-slate-100/60 hover:border-slate-300 hover:bg-white'
@@ -584,13 +584,13 @@ export default function LandingPage({ onLaunchConsole }) {
           </div>
 
           {/* Selected Scale Deep Dive Card with Real Company Logos */}
-          <div className="mt-8 rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+          <div className="mt-8 rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
             <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-slate-100">
               <div className="max-w-2xl">
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#0052ff]">
                   Operational Deployment Profile
                 </span>
-                <h4 className="mt-2 text-2xl font-semibold text-[#0f172a]">
+                <h4 className="mt-2 text-xl sm:text-2xl font-semibold text-[#0f172a]">
                   {activeScale.headline}
                 </h4>
                 <p className="mt-3 text-sm text-slate-600 leading-relaxed">
@@ -616,7 +616,7 @@ export default function LandingPage({ onLaunchConsole }) {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {activeScale.operationalBenefits.map((benefit, i) => (
                 <div key={i} className="flex items-center space-x-2.5 text-xs text-slate-700 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
                   <IconCheck className="w-4 h-4 text-[#0052ff] flex-shrink-0" />
@@ -629,8 +629,8 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 2: Indian Digital Commerce Reports & Macro Economics */}
-      <section id="india-context" className="w-full bg-white py-20 border-b border-slate-100">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <section id="india-context" className="w-full bg-white py-12 sm:py-20 border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="rounded-full bg-slate-100 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-600">
               Indian Market Economics
@@ -643,8 +643,8 @@ export default function LandingPage({ onLaunchConsole }) {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
+          <div className="mt-10 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0052ff] flex items-center justify-center">
                 <IconZap className="w-6 h-6" />
               </div>
@@ -655,7 +655,7 @@ export default function LandingPage({ onLaunchConsole }) {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
               <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
                 <IconTrendingUp className="w-6 h-6" />
               </div>
@@ -666,7 +666,7 @@ export default function LandingPage({ onLaunchConsole }) {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all space-y-4">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                 <IconShield className="w-6 h-6" />
               </div>
@@ -681,8 +681,8 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 3: The Core Problem in Digital Payments */}
-      <section id="problem" className="w-full bg-slate-50/60 py-20 border-b border-slate-200">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <section id="problem" className="w-full bg-slate-50/60 py-12 sm:py-20 border-b border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="rounded-full bg-blue-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#0052ff] border border-blue-100">
               The Fundamental Problem
@@ -695,8 +695,8 @@ export default function LandingPage({ onLaunchConsole }) {
             </p>
           </div>
 
-          <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all">
+          <div className="mt-10 sm:mt-14 grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-3">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all">
               <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
                 <IconAlertCircle className="w-6 h-6" />
               </div>
@@ -706,7 +706,7 @@ export default function LandingPage({ onLaunchConsole }) {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all">
               <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
                 <IconServer className="w-6 h-6" />
               </div>
@@ -716,7 +716,7 @@ export default function LandingPage({ onLaunchConsole }) {
               </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 hover:border-slate-300 hover:shadow-sm transition-all">
               <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0052ff] flex items-center justify-center">
                 <IconClock className="w-6 h-6" />
               </div>
@@ -730,8 +730,8 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 4: The Six Payment Archetypes (Interactive Matrix) */}
-      <section id="archetypes" className="w-full bg-white py-20 border-b border-slate-100">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <section id="archetypes" className="w-full bg-white py-12 sm:py-20 border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="rounded-full bg-slate-100 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-600">
               Recovery Engine
@@ -744,8 +744,8 @@ export default function LandingPage({ onLaunchConsole }) {
             </p>
           </div>
 
-          {/* Archetype Selector Tabs */}
-          <div className="mt-10 flex flex-wrap gap-2 pb-4 border-b border-slate-200">
+          {/* Archetype Selector Tabs: Swipeable on mobile, wrapping cleanly on desktop */}
+          <div className="mt-8 sm:mt-10 flex overflow-x-auto smooth-scroll-x gap-2 pb-3 border-b border-slate-200 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
             {ARCHETYPES.map((arch, idx) => {
               const IconComp = arch.icon;
               const isSelected = activeArchetypeIndex === idx;
@@ -754,7 +754,7 @@ export default function LandingPage({ onLaunchConsole }) {
                   key={arch.id}
                   type="button"
                   onClick={() => setActiveArchetypeIndex(idx)}
-                  className={`inline-flex items-center space-x-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+                  className={`inline-flex items-center space-x-2 rounded-full px-3.5 sm:px-4 py-2 text-xs font-semibold transition-all shrink-0 sm:shrink ${
                     isSelected
                       ? 'bg-[#0052ff] text-white shadow-sm'
                       : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
@@ -768,27 +768,27 @@ export default function LandingPage({ onLaunchConsole }) {
           </div>
 
           {/* Detailed Selected Archetype Breakdown Card */}
-          <div className="mt-8 rounded-3xl border border-slate-200 bg-slate-50/50 p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+          <div className="mt-8 rounded-2xl sm:rounded-3xl border border-slate-200 bg-slate-50/50 p-5 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200">
               <div>
-                <div className="flex items-center space-x-3">
-                  <h3 className="text-2xl font-semibold text-[#0f172a]">{activeArchetype.title}</h3>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-[#0f172a]">{activeArchetype.title}</h3>
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full border ${activeArchetype.badgeColor}`}>
                     {activeArchetype.delay}
                   </span>
                 </div>
-                <div className="mt-1 text-xs text-slate-500">
+                <div className="mt-1.5 text-xs text-slate-500">
                   Primary Channel: <strong className="text-slate-700">{activeArchetype.channel}</strong>
                 </div>
               </div>
 
               <div className="flex items-center space-x-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full self-start lg:self-auto">
-                <IconCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <IconCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                 <span>{activeArchetype.zeroPanicWords}</span>
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-xs">
               <div className="rounded-2xl bg-white p-5 border border-slate-200 space-y-2">
                 <div className="font-semibold text-slate-500 uppercase tracking-wider text-[11px]">
                   Technical Cause
@@ -821,9 +821,9 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 5: Interactive Step-by-Step Guided Tour */}
-      <section id="tour" className="w-full bg-slate-50/60 py-20 border-b border-slate-200">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200">
+      <section id="tour" className="w-full bg-slate-50/60 py-12 sm:py-20 border-b border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 sm:pb-10 border-b border-slate-200">
             <div>
               <span className="rounded-full bg-blue-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#0052ff] border border-blue-100">
                 Interactive Walkthrough
@@ -837,13 +837,13 @@ export default function LandingPage({ onLaunchConsole }) {
             </div>
 
             {/* Step Navigation Indicator */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5 sm:space-x-2 overflow-x-auto smooth-scroll-x pb-1">
               {TOUR_STEPS.map((step, idx) => (
                 <button
                   key={step.step}
                   type="button"
                   onClick={() => setCurrentStepIndex(idx)}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-semibold transition-all ${
+                  className={`flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full text-xs font-semibold transition-all shrink-0 ${
                     currentStepIndex === idx
                       ? 'bg-[#0052ff] text-white shadow-sm'
                       : 'bg-white text-slate-600 border border-slate-200 hover:text-[#0f172a]'
@@ -856,9 +856,9 @@ export default function LandingPage({ onLaunchConsole }) {
           </div>
 
           {/* Interactive Stage Card */}
-          <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12 items-center">
+          <div className="mt-8 sm:mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-center">
             {/* Left: Step Explanation */}
-            <div className="lg:col-span-6 space-y-6">
+            <div className="lg:col-span-6 space-y-5 sm:space-y-6">
               <div className="inline-flex items-center space-x-2 text-xs font-semibold uppercase tracking-wider text-[#0052ff]">
                 <span>Stage {currentStep.step} of 5</span>
                 <span>•</span>
@@ -878,12 +878,12 @@ export default function LandingPage({ onLaunchConsole }) {
               </p>
 
               {/* Navigation Actions */}
-              <div className="pt-4 flex items-center space-x-4">
+              <div className="pt-2 sm:pt-4 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={handlePrev}
                   disabled={currentStepIndex === 0}
-                  className={`inline-flex h-11 items-center justify-center rounded-full border border-slate-200 px-5 text-sm font-semibold transition-colors ${
+                  className={`inline-flex h-10 sm:h-11 items-center justify-center rounded-full border border-slate-200 px-4 sm:px-5 text-xs sm:text-sm font-semibold transition-colors ${
                     currentStepIndex === 0
                       ? 'cursor-not-allowed text-slate-300 bg-transparent'
                       : 'text-[#0f172a] bg-white hover:bg-slate-50'
@@ -896,7 +896,7 @@ export default function LandingPage({ onLaunchConsole }) {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-[#0052ff] px-6 text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm"
+                  className="inline-flex h-10 sm:h-11 items-center justify-center rounded-full bg-[#0052ff] px-5 sm:px-6 text-xs sm:text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm"
                 >
                   <span>{currentStepIndex === TOUR_STEPS.length - 1 ? 'Launch Merchant Console' : 'Next Step'}</span>
                   <IconArrowRight className="w-4 h-4 ml-1.5" />
@@ -913,11 +913,11 @@ export default function LandingPage({ onLaunchConsole }) {
 
             {/* Right: Dynamic Visual Mockup Stage */}
             <div className="lg:col-span-6">
-              <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-all">
+              <div className="rounded-2xl sm:rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-all">
                 {/* Step 1 Mockup */}
                 {currentStep.mockup.type === 'ingestion' && (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                       <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Webhook Verification & Privacy Mask
                       </span>
@@ -954,7 +954,7 @@ export default function LandingPage({ onLaunchConsole }) {
                 {/* Step 2 Mockup */}
                 {currentStep.mockup.type === 'classification' && (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
                       <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                         Root-Cause Diagnostic Output
                       </span>
@@ -965,8 +965,8 @@ export default function LandingPage({ onLaunchConsole }) {
 
                     <div className="rounded-2xl bg-slate-50 border border-slate-100 p-4 text-center">
                       <div className="text-xs uppercase tracking-wider text-slate-500">Assigned Failure Category</div>
-                      <div className="mt-1 text-2xl font-semibold text-[#0f172a]">{currentStep.mockup.category}</div>
-                      <div className="mt-1 text-xs text-slate-500 font-mono">
+                      <div className="mt-1 text-xl sm:text-2xl font-semibold text-[#0f172a]">{currentStep.mockup.category}</div>
+                      <div className="mt-1 text-xs text-slate-500 font-mono break-all">
                         {currentStep.mockup.errorCode} / {currentStep.mockup.errorDescription}
                       </div>
                     </div>
@@ -1028,11 +1028,11 @@ export default function LandingPage({ onLaunchConsole }) {
                     <div className="grid grid-cols-2 gap-3 text-center">
                       <div className="rounded-2xl bg-slate-50 border border-slate-100 p-3">
                         <div className="text-[11px] uppercase tracking-wider text-slate-500">Outreach Cap</div>
-                        <div className="mt-1 text-base font-bold text-[#0f172a]">{currentStep.mockup.attemptCap}</div>
+                        <div className="mt-1 text-sm sm:text-base font-bold text-[#0f172a]">{currentStep.mockup.attemptCap}</div>
                       </div>
                       <div className="rounded-2xl bg-slate-50 border border-slate-100 p-3">
                         <div className="text-[11px] uppercase tracking-wider text-slate-500">Window Limit</div>
-                        <div className="mt-1 text-base font-bold text-[#0f172a]">{currentStep.mockup.windowRemaining}</div>
+                        <div className="mt-1 text-sm sm:text-base font-bold text-[#0f172a]">{currentStep.mockup.windowRemaining}</div>
                       </div>
                     </div>
 
@@ -1085,8 +1085,8 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Section 6: Comprehensive Comparison Table */}
-      <section id="comparison" className="w-full bg-white py-20 border-b border-slate-100">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+      <section id="comparison" className="w-full bg-white py-12 sm:py-20 border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
             <span className="rounded-full bg-slate-100 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-slate-600">
               System Comparison
@@ -1096,66 +1096,68 @@ export default function LandingPage({ onLaunchConsole }) {
             </h2>
           </div>
 
-          <div className="mt-12 rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
-            <table className="w-full text-left border-collapse text-xs sm:text-sm">
-              <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/80">
-                  <th className="py-4 px-6 font-semibold text-slate-600">Recovery Dimension</th>
-                  <th className="py-4 px-6 font-semibold text-rose-600">Traditional Payment Gateways</th>
-                  <th className="py-4 px-6 font-semibold text-[#0052ff]">PaySense Autonomous Agent</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Failure Screen UX</td>
-                  <td className="py-4 px-6 text-slate-600">Alarms user with red "Payment Failed" alert</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">Replaces alarm with contextual patience & cart reservation</td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Bank Timeouts</td>
-                  <td className="py-4 px-6 text-slate-600">Customer forced to re-type details from scratch</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">Silent background retry via gateway (zero customer disturbance)</td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Low Balance Checkouts</td>
-                  <td className="py-4 px-6 text-slate-600">Immediate hard decline; customer gives up</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">Respectful next-morning window (9-11 AM IST) during salary credits</td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Customer Privacy</td>
-                  <td className="py-4 px-6 text-slate-600">PII stored in plain text or third-party marketing logs</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">SHA-256 irreversible hashing of all phone numbers and handles</td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Spam Protection</td>
-                  <td className="py-4 px-6 text-slate-600">Aggressive uncontrolled retargeting emails and SMS</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">Strict 3-attempt ceiling and 72-hour hard expiration</td>
-                </tr>
-                <tr>
-                  <td className="py-4 px-6 font-semibold text-[#0f172a]">Financial Auditability</td>
-                  <td className="py-4 px-6 text-slate-600">Fragmented logs across multiple disparate dashboards</td>
-                  <td className="py-4 px-6 text-emerald-700 font-medium">Single immutable append-only ledger with delete prevention</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="mt-10 sm:mt-12 rounded-2xl sm:rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+            <div className="overflow-x-auto smooth-scroll-x w-full">
+              <table className="w-full min-w-[620px] text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50/80">
+                    <th className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-slate-600">Recovery Dimension</th>
+                    <th className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-rose-600">Traditional Payment Gateways</th>
+                    <th className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0052ff]">PaySense Autonomous Agent</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Failure Screen UX</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">Alarms user with red "Payment Failed" alert</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">Replaces alarm with contextual patience & cart reservation</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Bank Timeouts</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">Customer forced to re-type details from scratch</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">Silent background retry via gateway (zero customer disturbance)</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Low Balance Checkouts</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">Immediate hard decline; customer gives up</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">Respectful next-morning window (9-11 AM IST) during salary credits</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Customer Privacy</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">PII stored in plain text or third-party marketing logs</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">SHA-256 irreversible hashing of all phone numbers and handles</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Spam Protection</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">Aggressive uncontrolled retargeting emails and SMS</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">Strict 3-attempt ceiling and 72-hour hard expiration</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 font-semibold text-[#0f172a]">Financial Auditability</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-slate-600">Fragmented logs across multiple disparate dashboards</td>
+                    <td className="py-3.5 sm:py-4 px-4 sm:px-6 text-emerald-700 font-medium">Single immutable append-only ledger with delete prevention</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Pre-Footer Action Banner */}
-      <section className="w-full bg-slate-50/80 py-20 text-center border-b border-slate-200">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <h2 className="text-3xl font-normal tracking-tight text-[#0f172a] sm:text-4xl">
+      <section className="w-full bg-slate-50/80 py-12 sm:py-20 text-center border-b border-slate-200">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-[#0f172a]">
             Explore the live merchant recovery console.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-slate-600">
+          <p className="mx-auto mt-3 sm:mt-4 max-w-xl text-sm sm:text-base text-slate-600">
             Access the real-time activity feed, inspect historical audit records, or simulate Razorpay webhook failures on demand.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-6 sm:mt-8 flex justify-center">
             <button
               type="button"
               onClick={onLaunchConsole}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-[#0052ff] px-8 text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-[#0052ff] px-8 text-sm font-semibold text-white transition-all hover:bg-[#003ecc] shadow-sm w-full sm:w-auto"
             >
               Launch Live Console
             </button>
@@ -1164,9 +1166,9 @@ export default function LandingPage({ onLaunchConsole }) {
       </section>
 
       {/* Closing Institutional Footer */}
-      <footer className="w-full bg-white py-12 text-xs text-slate-500">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center space-x-2">
+      <footer className="w-full bg-white py-8 sm:py-12 text-xs text-slate-500">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="font-semibold text-[#0f172a]">PaySense</span>
             <span>•</span>
             <span>Autonomous Payment Failure Recovery Agent for Razorpay</span>

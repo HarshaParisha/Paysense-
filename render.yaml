@@ -3,7 +3,7 @@ services:
     name: paysense-api
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: cd client && npm install && npm run build && cd .. && pip install -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: ANTHROPIC_API_KEY

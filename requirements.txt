@@ -6,3 +6,4 @@ apscheduler
 twilio
 sendgrid
 python-dotenv
+gunicorn

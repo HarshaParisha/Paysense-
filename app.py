@@ -144,6 +144,35 @@ def razorpay_webhook():
     return jsonify({"status": "received", "event": event_type}), 200
 
 
+@app.route("/simulate", methods=["POST", "GET"])
+@app.route("/api/simulate", methods=["POST", "GET"])
+def api_simulate():
+    """Generates a synthetic payment failure and triggers autonomous recovery."""
+    import random
+    categories = [
+        ("BAD_REQUEST_ERROR", "INSUFFICIENT_FUNDS", "insufficient_funds"),
+        ("GATEWAY_ERROR", "GATEWAY_TIMEOUT", "bank_timeout"),
+        ("BAD_REQUEST_ERROR", "PAYMENT_FAILED", "upi_pin_error"),
+        ("GATEWAY_ERROR", "NETWORK_ERROR", "network_dropout"),
+        ("BAD_REQUEST_ERROR", "CARD_DECLINE", "card_decline"),
+    ]
+    code, desc, cat = random.choice(categories)
+    sim_id = f"pay_sim_{int(time.time())}_{random.randint(100, 999)}"
+    payment_entity = {
+        "id": sim_id,
+        "amount": random.randint(500, 8000) * 100,
+        "currency": "INR",
+        "method": "upi",
+        "email": "customer.sim@example.com",
+        "contact": "+919876543210",
+        "error_code": code,
+        "error_description": desc,
+        "notes": {"name": "Simulated User"},
+    }
+    process_failure(payment_entity)
+    return jsonify({"status": "simulated", "payment_id": sim_id, "amount_rupees": payment_entity["amount"] // 100}), 200
+
+
 @app.route("/activity", methods=["GET"])
 @app.route("/api/activity", methods=["GET"])
 def api_activity():

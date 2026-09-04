@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { IconChat, IconBell, IconMail, IconFlag } from './Icons';
+import { INITIAL_ACTIVITY, INITIAL_REASONING } from '../data/seedData';
+import { generateSimulatedEvent } from '../data/simulationEngine';
 
 const STATUS_STYLES = {
   Recovered: { bg: '#E8F7F0', text: '#1A7A3C', border: '#bbf7d0' },
@@ -39,13 +41,13 @@ function getPlainEnglishStrategy(strategy, channel) {
   if (chan === 'email' || strat.includes('email')) {
     return 'Sending email with alternate method';
   }
-  if (chan === 'escalate' || strat.includes('escalate')) {
-    return 'Escalated to merchant dashboard';
-  }
   if (chan === 'push' || strat.includes('push')) {
-    return 'Sending push notification';
+    return 'Push notification with resume link';
   }
-  return 'Auto-retrying in 5 minutes';
+  if (chan === 'escalate' || strat.includes('escalat')) {
+    return 'Flagged for merchant attention';
+  }
+  return strategy || 'Autonomous agent recovery in progress';
 }
 
 function ChannelIconComponent({ channel }) {
@@ -57,13 +59,19 @@ function ChannelIconComponent({ channel }) {
   return <IconChat className="w-3.5 h-3.5 text-blue-600 flex-shrink-0" />;
 }
 
-function ReasoningPanel({ paymentId, onClose }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+function ReasoningPanel({ paymentId, onClose, fallbackReasoning }) {
+  const [data, setData] = useState(fallbackReasoning || null);
+  const [loading, setLoading] = useState(!fallbackReasoning);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
+    if (fallbackReasoning) {
+      setData(fallbackReasoning);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(false);
 
@@ -80,7 +88,11 @@ function ReasoningPanel({ paymentId, onClose }) {
       })
       .catch(() => {
         if (isMounted) {
-          setError(true);
+          if (fallbackReasoning) {
+            setData(fallbackReasoning);
+          } else {
+            setError(true);
+          }
           setLoading(false);
         }
       });
@@ -88,7 +100,7 @@ function ReasoningPanel({ paymentId, onClose }) {
     return () => {
       isMounted = false;
     };
-  }, [paymentId]);
+  }, [paymentId, fallbackReasoning]);
 
   return (
     <div
@@ -103,50 +115,38 @@ function ReasoningPanel({ paymentId, onClose }) {
         <h4 className="text-sm font-semibold text-[#0f172a]">Agent Diagnostic Reasoning</h4>
         <button
           type="button"
-          id={`close-reasoning-${paymentId}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-          className="text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 transition-colors"
-          title="Close reasoning panel"
+          onClick={onClose}
+          className="text-xs text-slate-500 hover:text-slate-800 p-1"
         >
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          Close
         </button>
       </div>
 
       {loading ? (
-        <div className="text-xs text-slate-500">Loading agent reasoning</div>
+        <div className="text-xs text-slate-500 py-2">Loading reasoning analysis...</div>
       ) : error || !data ? (
-        <div className="text-xs text-slate-500">Reasoning not available for this event</div>
+        <div className="text-xs text-slate-500 py-2">
+          Diagnostic analysis not available for this event.
+        </div>
       ) : (
-        <div>
-          {/* Two-column layout for failure category and confidence score percentage */}
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs mb-3">
-            <div className="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">
-              <span className="text-slate-500">Failure:</span>
-              <span className="font-semibold text-[#0f172a]">{formatFailureType(data.failure_category)}</span>
-            </div>
-            <div className="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 text-slate-700">
-              <span className="text-slate-500">Confidence:</span>
-              <span className="font-semibold text-[#0f172a] font-mono">
-                {Math.round((data.confidence_score || 0) * 100)}%
-              </span>
-            </div>
+        <div className="space-y-2 text-xs">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="px-2.5 py-1 rounded-full font-medium bg-blue-50 text-[#0052ff] border border-blue-100">
+              {formatFailureType(data.failure_category)}
+            </span>
+            <span className="px-2.5 py-1 rounded-full font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+              Confidence: {Math.round(data.confidence_score * 100)}%
+            </span>
           </div>
 
-          {/* Full LLM reasoning text with no truncation */}
-          <div className="text-xs text-slate-800 bg-slate-50 p-3 rounded-xl border border-slate-200 whitespace-pre-line break-words">
+          <div className="text-slate-700 pt-1 leading-relaxed bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span className="font-semibold text-[#0f172a] block mb-1">Multi-Layer Root Cause Analysis:</span>
             {data.reasoning}
           </div>
 
-          {/* Recovery hint text using secondary info style */}
           {data.recovery_hint && (
-            <div className="mt-2.5 text-xs text-slate-600 flex items-center space-x-1.5 bg-slate-100 p-2 rounded-lg">
-              <span className="font-medium text-slate-700">Recovery Hint:</span>
+            <div className="text-slate-600 pt-1 flex items-start space-x-1.5">
+              <span className="font-medium text-slate-800">Autonomous Hint:</span>
               <span>{data.recovery_hint}</span>
             </div>
           )}
@@ -157,30 +157,38 @@ function ReasoningPanel({ paymentId, onClose }) {
 }
 
 export default function ActivityFeed() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(INITIAL_ACTIVITY);
+  const [simulationReasonings, setSimulationReasonings] = useState(INITIAL_REASONING);
   const [expandedCards, setExpandedCards] = useState({});
   const [selectedPaymentId, setSelectedPaymentId] = useState(null);
   const [previousIds, setPreviousIds] = useState(new Set());
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [autoLoop, setAutoLoop] = useState(false);
+  const [simStatus, setSimStatus] = useState(null);
   const isInitialMount = useRef(true);
 
   const fetchActivity = async () => {
     try {
       const res = await fetch('/api/activity');
-      if (!res.ok) throw new Error('Failed to fetch activity');
+      if (!res.ok) return;
       const data = await res.json();
-      
-      setEvents((prev) => {
-        if (isInitialMount.current) {
-          isInitialMount.current = false;
-          setPreviousIds(new Set(data.map((d) => d.payment_id)));
-          return data;
-        }
-        setPreviousIds(new Set(prev.map((d) => d.payment_id)));
-        return data;
-      });
+      if (Array.isArray(data) && data.length > 0) {
+        setEvents((prev) => {
+          if (isInitialMount.current) {
+            isInitialMount.current = false;
+            setPreviousIds(new Set(data.map((d) => d.payment_id)));
+            return data;
+          }
+          const localSimulated = prev.filter((e) => e.is_simulation);
+          const apiIds = new Set(data.map((d) => d.payment_id));
+          const uniqueSimulated = localSimulated.filter((e) => !apiIds.has(e.payment_id));
+          setPreviousIds(new Set(prev.map((d) => d.payment_id)));
+          return [...uniqueSimulated, ...data];
+        });
+      }
     } catch (err) {
-      console.error('Activity polling error:', err);
+      // Gracefully maintain client seed activity feed
     } finally {
       setLoading(false);
     }
@@ -192,6 +200,73 @@ export default function ActivityFeed() {
     return () => clearInterval(interval);
   }, []);
 
+  const runSimulation = () => {
+    if (isSimulating) return;
+    setIsSimulating(true);
+
+    const { activity, reasoning, scenario } = generateSimulatedEvent();
+
+    // Step 1: Detect failure
+    setSimStatus({
+      stage: 'detected',
+      message: `🚨 Payment Interrupted: ${scenario.name} (₹${scenario.amount.toLocaleString('en-IN')}) — ${formatFailureType(scenario.category)}`,
+      badge: 'Capture',
+      badgeColor: 'bg-red-50 text-red-700 border-red-200',
+    });
+
+    // Step 2: Agent reasoning
+    setTimeout(() => {
+      setSimStatus({
+        stage: 'reasoning',
+        message: `🧠 AI Reasoning (${Math.round(reasoning.confidence_score * 100)}% Confidence): Root cause identified. Deploying ${scenario.strategy}...`,
+        badge: 'Diagnostic',
+        badgeColor: 'bg-blue-50 text-blue-700 border-blue-200',
+      });
+    }, 1200);
+
+    // Step 3: Autonomously recovered
+    setTimeout(() => {
+      setSimStatus({
+        stage: 'recovered',
+        message: `⚡ Autonomously Recovered ₹${scenario.amount.toLocaleString('en-IN')} for ${scenario.name} via ${scenario.strategy}!`,
+        badge: 'Recovered',
+        badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      });
+
+      // Save reasoning
+      setSimulationReasonings((prev) => ({
+        ...prev,
+        [activity.payment_id]: reasoning,
+      }));
+
+      // Prepend to events
+      setEvents((prev) => [activity, ...prev]);
+
+      // Fire event to update App.jsx ticker and Report.jsx breakdown
+      window.dispatchEvent(
+        new CustomEvent('paysense:simulated-recovery', {
+          detail: { activity, reasoning },
+        })
+      );
+
+      setIsSimulating(false);
+
+      // Dismiss status toast after 6s
+      setTimeout(() => {
+        setSimStatus(null);
+      }, 6000);
+    }, 2500);
+  };
+
+  // Autonomous agent loop toggle
+  useEffect(() => {
+    if (!autoLoop) return;
+    const loopInterval = setInterval(() => {
+      runSimulation();
+    }, 8000);
+    return () => clearInterval(loopInterval);
+  }, [autoLoop, isSimulating]);
+
   const toggleExpand = (paymentId) => {
     setExpandedCards((prev) => ({
       ...prev,
@@ -201,16 +276,81 @@ export default function ActivityFeed() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+      {/* Header with Title and Real-Time Polling Pill */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-[#0f172a]">Live Failure Activity</h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Real-time payment failure capture, autonomous classification, and recovery execution</p>
+          <div className="flex items-center space-x-2">
+            <h2 className="text-lg sm:text-xl font-semibold text-[#0f172a]">Live Failure Activity</h2>
+            <span className="text-xs px-2 py-0.5 font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+              {events.length} Captured Events
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            Real-time payment failure capture, autonomous classification, and multi-channel recovery
+          </p>
         </div>
-        <div className="flex items-center space-x-2 text-xs text-slate-500 shrink-0 self-start sm:self-auto">
-          <span className="inline-block w-2 h-2 rounded-full bg-[#0052ff] animate-pulse"></span>
-          <span>Polling every 3s</span>
+
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <button
+            type="button"
+            id="btn-simulate-ai"
+            onClick={runSimulation}
+            disabled={isSimulating}
+            className={`inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all ${
+              isSimulating
+                ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                : 'bg-[#0052ff] hover:bg-blue-600 text-white hover:shadow'
+            }`}
+            title="Trigger autonomous AI agent failure capture and recovery pipeline"
+          >
+            <span className={isSimulating ? 'animate-spin' : ''}>⚡</span>
+            <span>{isSimulating ? 'AI Agent Processing...' : 'Simulate AI Recovery'}</span>
+          </button>
+
+          <label
+            htmlFor="toggle-auto-pilot"
+            className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-medium bg-slate-50 border border-slate-200 hover:border-slate-300 cursor-pointer select-none transition-colors"
+          >
+            <input
+              type="checkbox"
+              id="toggle-auto-pilot"
+              checked={autoLoop}
+              onChange={(e) => setAutoLoop(e.target.checked)}
+              className="w-3.5 h-3.5 text-[#0052ff] rounded focus:ring-0 cursor-pointer"
+            />
+            <span className="text-slate-700 font-semibold">Auto-Pilot AI Loop (8s)</span>
+            {autoLoop && <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>}
+          </label>
+
+          <div className="flex items-center space-x-2 text-xs text-slate-500 pl-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-[#0052ff] animate-pulse"></span>
+            <span>Live</span>
+          </div>
         </div>
       </div>
+
+      {/* Live Simulation Banner / Agent Pipeline Status */}
+      {simStatus && (
+        <div className="p-3.5 mb-4 bg-gradient-to-r from-blue-50/90 via-indigo-50/70 to-emerald-50/90 border border-blue-200 rounded-2xl shadow-sm fade-in-card flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="flex items-center space-x-3">
+            <div className="w-7 h-7 rounded-full bg-[#0052ff] flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-sm">
+              ⚡
+            </div>
+            <div>
+              <div className="text-[11px] font-bold text-[#0052ff] uppercase tracking-wider">
+                Autonomous AI Agent Pipeline
+              </div>
+              <div className="text-xs sm:text-sm font-medium text-slate-800">
+                {simStatus.message}
+              </div>
+            </div>
+          </div>
+
+          <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border shrink-0 self-start sm:self-auto ${simStatus.badgeColor}`}>
+            {simStatus.badge}
+          </span>
+        </div>
+      )}
 
       {loading && events.length === 0 ? (
         <div className="p-8 text-center text-sm text-slate-500 bg-slate-50 rounded-2xl border border-slate-200">
@@ -218,12 +358,12 @@ export default function ActivityFeed() {
         </div>
       ) : events.length === 0 ? (
         <div className="p-8 text-center text-sm text-slate-500 bg-slate-50 rounded-2xl border border-slate-200">
-          No payment failure events captured yet.
+          No payment failure events captured yet. Click "Simulate AI Recovery" above to test the autonomous agent.
         </div>
       ) : (
         <div className="flex flex-col space-y-3">
           {events.map((event) => {
-            const isNew = !previousIds.has(event.payment_id);
+            const isNew = !previousIds.has(event.payment_id) || event.isNew;
             const statusKey = event.current_status || 'Pending';
             const statusColor = STATUS_STYLES[statusKey] || STATUS_STYLES.Pending;
             const isExpanded = !!expandedCards[event.payment_id];
@@ -261,7 +401,7 @@ export default function ActivityFeed() {
                     isSelected
                       ? 'border-[#0052ff] ring-1 ring-[#0052ff]'
                       : 'border-slate-200 hover:border-slate-300'
-                  } ${isNew ? 'fade-in-card' : ''}`}
+                  } ${isNew ? 'fade-in-card' : ''} ${event.is_simulation ? 'border-blue-200 bg-blue-50/10' : ''}`}
                   style={{
                     transition: 'opacity 200ms ease-out',
                   }}
@@ -278,6 +418,11 @@ export default function ActivityFeed() {
                       <span className="text-xs text-slate-500 uppercase tracking-wider">
                         via {event.payment_method || 'UPI'}
                       </span>
+                      {event.is_simulation && (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-[#0052ff] border border-blue-200">
+                          ⚡ AI Simulated
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center space-x-2 shrink-0">
@@ -338,6 +483,11 @@ export default function ActivityFeed() {
                       <span>{event.stop_reason}</span>
                     </div>
                   )}
+
+                  <div className="mt-2 text-[11px] text-slate-400 flex items-center justify-between">
+                    <span>Click card to inspect Autonomous AI Reasoning & Diagnostic Proof</span>
+                    <span className="text-[#0052ff] font-medium">{isSelected ? 'Hide Reasoning ▲' : 'View Reasoning ▼'}</span>
+                  </div>
                 </div>
 
                 {/* Inline Live Agent Reasoning Panel */}
@@ -345,6 +495,7 @@ export default function ActivityFeed() {
                   <ReasoningPanel
                     paymentId={event.payment_id}
                     onClose={() => setSelectedPaymentId(null)}
+                    fallbackReasoning={simulationReasonings[event.payment_id] || INITIAL_REASONING[event.payment_id]}
                   />
                 )}
               </React.Fragment>

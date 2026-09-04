@@ -3,14 +3,15 @@ import LandingPage from './components/LandingPage';
 import ActivityFeed from './components/ActivityFeed';
 import Report from './components/Report';
 import { IconArrowLeft } from './components/Icons';
+import { INITIAL_REPORT } from './data/seedData';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('landing'); // 'landing' or 'console'
   const [activeTab, setActiveTab] = useState('activity');
   const [tickerData, setTickerData] = useState({
-    atRisk: 0,
-    recovered: 0,
-    rate: '0.0',
+    atRisk: INITIAL_REPORT.total_at_risk_rupees,
+    recovered: INITIAL_REPORT.total_revenue_recovered_rupees,
+    rate: ((INITIAL_REPORT.total_recovered / INITIAL_REPORT.total_attempts) * 100).toFixed(1),
   });
 
   const fetchTickerMetrics = async () => {
@@ -30,14 +31,30 @@ export default function App() {
         rate,
       });
     } catch (err) {
-      console.error('Ticker fetch error:', err);
+      // Keep existing ticker metrics if API is unreachable
     }
   };
 
   useEffect(() => {
     fetchTickerMetrics();
     const interval = setInterval(fetchTickerMetrics, 3000);
-    return () => clearInterval(interval);
+
+    const handleSimulationEvent = (e) => {
+      const { activity } = e.detail || {};
+      if (!activity) return;
+      setTickerData((prev) => {
+        const atRisk = prev.atRisk + (activity.amount_rupees || 0);
+        const recovered = activity.current_status === 'Recovered' ? prev.recovered + activity.amount_rupees : prev.recovered;
+        const rate = atRisk > 0 ? ((recovered / atRisk) * 100).toFixed(1) : prev.rate;
+        return { atRisk, recovered, rate };
+      });
+    };
+
+    window.addEventListener('paysense:simulated-recovery', handleSimulationEvent);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('paysense:simulated-recovery', handleSimulationEvent);
+    };
   }, []);
 
   if (currentView === 'landing') {

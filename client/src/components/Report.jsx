@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { IconDownload } from './Icons';
+import { INITIAL_REPORT, INITIAL_ACTIVITY } from '../data/seedData';
 
 const CATEGORY_NAMES = {
   upi_pin_error: 'UPI PIN Error',

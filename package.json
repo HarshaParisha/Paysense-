@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm --prefix client run build"
+    "postinstall": "npm --prefix client install",
+    "build": "npm --prefix client install && npm --prefix client run build"
   }
 }

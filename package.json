@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "npm --prefix client install",
-    "build": "npm --prefix client install && npm --prefix client run build"
+    "build": "echo 'Frontend pre-compiled in client/dist'"
   }
 }

@@ -16,10 +16,9 @@ paysense.db
 venv/
 ENV/
 
-# Node dependencies & frontend production build
+# Node dependencies
 node_modules/
 client/node_modules/
-client/dist/
 
 # Python cache & compiled files
 __pycache__/
